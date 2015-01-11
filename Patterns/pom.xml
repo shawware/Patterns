@@ -1,0 +1,21 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>patterns</artifactId>
+  <name>Shawware Patterns</name>
+  <description>A project for exploring design patterns in Java with a focus on exploring the consequences (or trade-offs) of the various implementations.</description>
+  <version>0.1</version>
+  <url>https://github.com/shawware/Patterns</url>
+  <parent>
+    <groupId>au.com.shawware</groupId>
+    <artifactId>sw-java-pom</artifactId>
+    <version>0.9.3</version>
+  </parent>
+  <scm>
+    <url>https://github.com/shawware/Patterns</url>
+    <connection>scm:git:git://github.com/shawware/Patterns.git</connection>
+    <developerConnection>scm:git:git@github.com:shawware/Patterns.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
+  <packaging>jar</packaging>
+</project>
