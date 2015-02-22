@@ -18,4 +18,11 @@
     <tag>HEAD</tag>
   </scm>
   <packaging>jar</packaging>
+  <dependencies>
+    <dependency>
+      <groupId>au.com.shawware</groupId>
+      <artifactId>sw-util</artifactId>
+      <version>0.9.11</version>
+    </dependency>
+  </dependencies>
 </project>
