@@ -7,7 +7,6 @@
 
 package au.com.shawware.patterns.cvi;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -35,64 +34,27 @@ public class DepthFirstIterator implements Iterator<AbstractElement>
      * @param order the order in which to iterate through the elements - we support
      * {@link DepthFirstOrder#PRE_ORDER} and {@link DepthFirstOrder#POST_ORDER}
      */
-    @SuppressWarnings("incomplete-switch")
     public DepthFirstIterator(final CodeAggregator aggregator, final DepthFirstOrder order)
     {
         SwAssert.notNull(aggregator);
         SwAssert.notNull(order);
 
-        mElements = new ArrayList<AbstractElement>();
+        final IElementOrderer orderer;
         switch (order)
         {
-            case PRE_ORDER:
-                initialisePreOrder(aggregator);
-                break;
             case IN_ORDER:
                 throw new IllegalArgumentException("unsupported order"); //$NON-NLS-1$
             case POST_ORDER:
-                initialisePostOrder(aggregator);
+                orderer = new PostOrderElements();
+                break;
+            case PRE_ORDER:
+            default:
+                orderer = new PreOrderElements();
                 break;
         }
+        mElements = orderer.orderElements(aggregator);
         mOrder = order;
         mNext = 0;
-    }
-
-    /**
-     * Recursively initialise the list of elements to iterate over in pre-order.
-     * 
-     * @param elt the current element in the recursive iteration
-     */
-    private void initialisePreOrder(final AbstractElement elt)
-    {
-        mElements.add(elt);
-        if (!elt.isLeaf())
-        {
-            final CodeAggregator aggregator = (CodeAggregator)elt;
-            final Iterator<String> ids = aggregator.getChildrenIDs();
-            while (ids.hasNext())
-            {
-                initialisePreOrder(aggregator.getChild(ids.next()));
-            }
-        }
-    }
-
-    /**
-     * Recursively initialise the list of elements to iterate over in post-order.
-     * 
-     * @param elt the current element in the recursive iteration
-     */
-    private void initialisePostOrder(final AbstractElement elt)
-    {
-        if (!elt.isLeaf())
-        {
-            final CodeAggregator aggregator = (CodeAggregator)elt;
-            final Iterator<String> ids = aggregator.getChildrenIDs();
-            while (ids.hasNext())
-            {
-                initialisePostOrder(aggregator.getChild(ids.next()));
-            }
-        }
-        mElements.add(elt);
     }
 
     /* (non-Javadoc)
