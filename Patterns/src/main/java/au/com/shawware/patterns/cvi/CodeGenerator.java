@@ -75,4 +75,13 @@ public class CodeGenerator
         code += elt.getDescription();
         return code;
     }
+
+    @Override
+    public String toString()
+    {
+        return "CodeGenerator" + //$NON-NLS-1$
+                "(" + //$NON-NLS-1$
+                mMaxDepth +
+                ")"; //$NON-NLS-1$
+    }
 }

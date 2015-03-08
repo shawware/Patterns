@@ -46,8 +46,11 @@ public class CodeLoaderUnitTest
         "      def: LL, 10, Mandarin",
         "      def: LL, 20, Navel",
     };
-    /** The corresponding account codes (to {@link #sBasicCodeDefinition}. */
-    private static final String[] sBasicCodes =
+    /**
+     * The corresponding account codes (to {@link #sBasicCodeDefinition})
+     * in depth-first pre-order.
+     */
+    private static final String[] sPreOrderCodes =
     {
         "10-00-00-00 Food",
         "10-10-00-00  Fruit",
@@ -61,6 +64,23 @@ public class CodeLoaderUnitTest
     };
 
     /**
+     * The corresponding account codes (to {@link #sBasicCodeDefinition})
+     * in depth-first post-order.
+     */
+    private static final String[] sPostOrderCodes =
+    {
+        "10-10-10-10    Pink Lady",
+        "10-10-10-20    Granny Smith",
+        "10-10-10-30    Fuji",
+        "10-10-10-00   Apples",
+        "10-10-20-10    Mandarin",
+        "10-10-20-20    Navel",
+        "10-10-20-00   Oranges",
+        "10-10-00-00  Fruit",
+        "10-00-00-00 Food",
+    };
+
+    /**
      * Test the basic load and compare operation.
      */
     @Test
@@ -68,7 +88,7 @@ public class CodeLoaderUnitTest
     {
         final CodeAggregator chart = loadChart("Basic", "Basic Test", sBasicCodeDefinition);
         final String[] actualCodes = aggregateToArray(chart);
-        Assert.assertArrayEquals(sBasicCodes, actualCodes);
+        Assert.assertArrayEquals(sPreOrderCodes, actualCodes);
     }
 
     /**
@@ -81,7 +101,47 @@ public class CodeLoaderUnitTest
         final ConvertToString visitor = new ConvertToString(sMaxDepth);
         chart.accept(visitor);
         final String[] actualCodes = visitor.getResult();
-        Assert.assertArrayEquals(sBasicCodes, actualCodes);
+        Assert.assertArrayEquals(sPreOrderCodes, actualCodes);
+    }
+
+    /**
+     * Tests the Iterator pattern.
+     */
+    @Test
+    public void iteratorTest()
+    {
+        final CodeAggregator chart = loadChart("Iterator", "Iterator Test", sBasicCodeDefinition);
+        final CodeGenerator generator = new CodeGenerator(sMaxDepth);
+        final List<String> codes = new ArrayList<String>();
+
+        DepthFirstIterator iterator;
+        String[] actualCodes;
+
+        codes.clear();
+        iterator = new DepthFirstIterator(chart, DepthFirstOrder.PRE_ORDER);
+        while (iterator.hasNext())
+        {
+            final AbstractElement elt = iterator.next();
+            if (!elt.isRoot())
+            {
+                codes.add(generator.generateCode(elt));
+            }
+        }
+        actualCodes = codes.toArray(new String[codes.size()]);
+        Assert.assertArrayEquals(sPreOrderCodes, actualCodes);
+
+        codes.clear();
+        iterator = new DepthFirstIterator(chart, DepthFirstOrder.POST_ORDER);
+        while (iterator.hasNext())
+        {
+            final AbstractElement elt = iterator.next();
+            if (!elt.isRoot())
+            {
+                codes.add(generator.generateCode(elt));
+            }
+        }
+        actualCodes = codes.toArray(new String[codes.size()]);
+        Assert.assertArrayEquals(sPostOrderCodes, actualCodes);
     }
 
     /**
