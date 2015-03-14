@@ -18,7 +18,6 @@ import java.util.List;
  */
 public class PostOrderElements implements IElementOrderer
 {
-
     /* (non-Javadoc)
      * @see au.com.shawware.patterns.cvi.IElementOrderer#orderElements(au.com.shawware.patterns.cvi.CodeAggregator)
      */
@@ -48,5 +47,11 @@ public class PostOrderElements implements IElementOrderer
             }
         }
         orderedElements.add(elt);
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Depth First :: Post Order"; //$NON-NLS-1$
     }
 }

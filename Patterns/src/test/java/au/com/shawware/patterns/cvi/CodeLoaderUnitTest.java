@@ -118,7 +118,7 @@ public class CodeLoaderUnitTest
         String[] actualCodes;
 
         codes.clear();
-        iterator = new DepthFirstIterator(chart, DepthFirstOrder.PRE_ORDER);
+        iterator = new DepthFirstIterator(chart, new PreOrderElements());
         while (iterator.hasNext())
         {
             final AbstractElement elt = iterator.next();
@@ -131,7 +131,7 @@ public class CodeLoaderUnitTest
         Assert.assertArrayEquals(sPreOrderCodes, actualCodes);
 
         codes.clear();
-        iterator = new DepthFirstIterator(chart, DepthFirstOrder.POST_ORDER);
+        iterator = new DepthFirstIterator(chart, new PostOrderElements());
         while (iterator.hasNext())
         {
             final AbstractElement elt = iterator.next();

@@ -23,7 +23,7 @@ public class DepthFirstIterator implements Iterator<AbstractElement>
     /** The ordered list of elements to be iterated over. */
     private final List<AbstractElement> mElements;
     /** The iteration order. */
-    private final DepthFirstOrder mOrder;
+    private final IElementOrderer mOrderer;
     /** The index of the next element in the list. */
     private int mNext;
 
@@ -31,29 +31,15 @@ public class DepthFirstIterator implements Iterator<AbstractElement>
      * Construct a new Iterator over the given aggregate Component.
      * 
      * @param aggregator the aggregate to iterate over
-     * @param order the order in which to iterate through the elements - we support
-     * {@link DepthFirstOrder#PRE_ORDER} and {@link DepthFirstOrder#POST_ORDER}
+     * @param orderer the ordering strategy used to iterate through the elements
      */
-    public DepthFirstIterator(final CodeAggregator aggregator, final DepthFirstOrder order)
+    public DepthFirstIterator(final CodeAggregator aggregator, final IElementOrderer orderer)
     {
         SwAssert.notNull(aggregator);
-        SwAssert.notNull(order);
+        SwAssert.notNull(orderer);
 
-        final IElementOrderer orderer;
-        switch (order)
-        {
-            case IN_ORDER:
-                throw new IllegalArgumentException("unsupported order"); //$NON-NLS-1$
-            case POST_ORDER:
-                orderer = new PostOrderElements();
-                break;
-            case PRE_ORDER:
-            default:
-                orderer = new PreOrderElements();
-                break;
-        }
         mElements = orderer.orderElements(aggregator);
-        mOrder = order;
+        mOrderer = orderer;
         mNext = 0;
     }
 
@@ -78,9 +64,6 @@ public class DepthFirstIterator implements Iterator<AbstractElement>
     @Override
     public String toString()
     {
-        return "DepthFirstIterator" + //$NON-NLS-1$
-                "(" + //$NON-NLS-1$
-                mOrder +
-                ")"; //$NON-NLS-1$
+        return mOrderer.toString();
     }
 }

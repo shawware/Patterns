@@ -48,4 +48,10 @@ public class PreOrderElements implements IElementOrderer
             }
         }
     }
+
+    @Override
+    public String toString()
+    {
+        return "Depth First :: Pre Order"; //$NON-NLS-1$
+    }
 }
