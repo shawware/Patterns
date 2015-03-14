@@ -4,7 +4,7 @@ Patterns
 Shawware Design Patterns Code
 
 A project for exploring design patterns in Java with a focus on exploring the consequences (or trade-offs)
-of the various implementations.
+of the various implementations. A discussion can be found in the [wiki](../../wiki).
 
 Owner And Copyright Notice
 --------------------------
