@@ -15,12 +15,12 @@ import au.com.shawware.util.SwAssert;
 /**
  * The base <em>Component</em> class for the <code>Composite</code> pattern.
  * 
- * We specify that each Component is aware of whether it is a leaf
- * and/or root Component.
+ * We specify that each <em>Component</em> is aware of whether it is a leaf
+ * and/or root <em>Component</em>.
  *
  * One of the trade-offs is where do we define the attributes and operations
- * for managing children. These are on the Composite, although the children
- * are stored in the Component so that they are easily available to {@link #toString()}.
+ * for managing children. These are on the <em>Composite</em>, although the children
+ * are stored in the <em>Component</em> so that they are easily available to {@link #toString()}.
  *
  * @author <a href="mailto:david.shaw@shawware.com.au">David Shaw</a>
  */

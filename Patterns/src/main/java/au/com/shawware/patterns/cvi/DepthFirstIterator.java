@@ -13,8 +13,8 @@ import java.util.List;
 import au.com.shawware.util.SwAssert;
 
 /**
- * An iterator over our <code>Composite</code> pattern.
- * Implements depth-first iterations (boht pre-order and post-order).
+ * An <code>Iterator</code> over our <code>Composite</code> pattern.
+ * Implements depth-first iterations (both pre-order and post-order).
  *
  * @author <a href="mailto:david.shaw@shawware.com.au">David Shaw</a>
  */

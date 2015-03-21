@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Converts a Component from our Composite pattern to a String
- * using the Visitor pattern.
+ * Converts a <em>Component</em> from our <code>Composite</code> pattern to a
+ * String using the <code>Visitor</code> pattern.
  *
  * @author <a href="mailto:david.shaw@shawware.com.au">David Shaw</a>
  */

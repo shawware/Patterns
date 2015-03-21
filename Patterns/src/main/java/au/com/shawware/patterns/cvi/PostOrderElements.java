@@ -22,7 +22,7 @@ public class PostOrderElements implements IElementOrderer
      * @see au.com.shawware.patterns.cvi.IElementOrderer#orderElements(au.com.shawware.patterns.cvi.CodeAggregator)
      */
     @Override
-    public List<AbstractElement> orderElements(CodeAggregator aggregator)
+    public List<AbstractElement> orderElements(final CodeAggregator aggregator)
     {
         final List<AbstractElement> orderedElements = new ArrayList<AbstractElement>();
         postOrder(orderedElements, aggregator);

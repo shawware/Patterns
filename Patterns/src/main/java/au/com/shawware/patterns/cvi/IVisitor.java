@@ -8,7 +8,7 @@
 package au.com.shawware.patterns.cvi;
 
 /**
- * Defines the interface for visiting the Composite tree.
+ * Defines the interface for visiting our <code>Composite</code> tree.
  *
  * @author <a href="mailto:david.shaw@shawware.com.au">David Shaw</a>
  */

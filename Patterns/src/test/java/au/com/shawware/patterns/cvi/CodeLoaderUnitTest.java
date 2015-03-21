@@ -22,7 +22,7 @@ import org.junit.Test;
 import au.com.shawware.util.issues.LineIssueHolder;
 
 /**
- * Unit tests for {@link CodeLoader}
+ * Unit tests for {@link CodeLoader}. Exercise our patterns.
  *
  * @author <a href="mailto:david.shaw@shawware.com.au">David Shaw</a>
  */

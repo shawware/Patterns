@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * Implement a trivial <code>Strategy</code> pattern for ordering
- * the elements in a <code>Composite</code>.
+ * the elements in our <code>Composite</code>.
  *
  * @author <a href="mailto:david.shaw@shawware.com.au">David Shaw</a>
  */

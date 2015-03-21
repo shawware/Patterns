@@ -58,6 +58,16 @@ public class CodeLoader
     /** The current line number. */
     private int mLineNumber;
  
+    /**
+     * Loads the codes from the given source and returns them as an aggregate.
+     * 
+     * @param id the id of the new aggregate
+     * @param desc the description of the new aggregate
+     * @param src the source of the code definition
+     * @param issues a holder for any issues encountered processing the code definition
+     * 
+     * @return The processed codes as an aggregate.
+     */
     public CodeAggregator loadCodes(final String id, final String desc, final Scanner src, final LineIssueHolder issues)
     {
         assert SwAssert.isNotEmpty(id);
@@ -101,6 +111,11 @@ public class CodeLoader
         return null;
     }
 
+    /**
+     * Processes a single line of the code definition.
+     * 
+     * @param line the line to process
+     */
     private void processLine(final String line)
     {
         // Identify major elements of a line.

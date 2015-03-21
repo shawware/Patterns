@@ -10,7 +10,7 @@ package au.com.shawware.patterns.cvi;
 import java.util.Stack;
 
 /**
- * Generates codes for Components within our Composite pattern.
+ * Generates codes for <em>Component</em>s within our <code>Composite</code> pattern.
  *
  * @author <a href="mailto:david.shaw@shawware.com.au">David Shaw</a>
  */
