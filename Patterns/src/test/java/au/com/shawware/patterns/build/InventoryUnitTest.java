@@ -29,15 +29,15 @@ public class InventoryUnitTest
     @Test
     public void initialDev()
     {
-        final IEntityFactory eFactory = new EnlightenedEntityFactory();
+        final IEntityFactory eFactory = EnlightenedEntityFactory.getFactory();
         basicConstructionCheck(eFactory);
 
-        final IEntityFactory rFactory = new ResistanceEntityFactory();
+        final IEntityFactory rFactory = ResistanceEntityFactory.getFactory();
         basicConstructionCheck(rFactory);
     }
 
     /**
-     * Conduct some simple tests for the given factory.
+     * Conduct some simple tests for the given <em>Abstract Factory</em>.
      * 
      * @param factory the factory to test
      */

@@ -17,17 +17,31 @@ import au.com.shawware.patterns.build.WeaponType;
 
 /**
  * Defines an entity factory for the Resistance faction.
+ * Acts as an <em>Abstract Factory</em> accessed via a <em>Singleton</em>.
  *
  * @author <a href="mailto:david.shaw@shawware.com.au">David Shaw</a>
  */
 public class ResistanceEntityFactory extends Element implements IEntityFactory
 {
-    /**
-     * Constructor.
-     */
-    public ResistanceEntityFactory()
+    /** The singleton instance of this abstract factory. */
+    private static ResistanceEntityFactory sFactory = null;
+
+    /** Prevent external construction. */
+    private ResistanceEntityFactory()
     {
         super(Faction.RESISTANCE);
+    }
+
+    /**
+     * @return The singleton instance of this factory.
+     */
+    public static synchronized IEntityFactory getFactory()
+    {
+        if (sFactory == null)
+        {
+            sFactory = new ResistanceEntityFactory();
+        }
+        return sFactory;
     }
 
     @Override

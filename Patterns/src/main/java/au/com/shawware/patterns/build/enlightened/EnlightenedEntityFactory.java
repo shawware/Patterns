@@ -17,17 +17,31 @@ import au.com.shawware.patterns.build.WeaponType;
 
 /**
  * Defines an entity factory for the Enlightened faction.
+ * Acts as an <em>Abstract Factory</em> accessed via a <em>Singleton</em>.
  *
  * @author <a href="mailto:david.shaw@shawware.com.au">David Shaw</a>
  */
 public class EnlightenedEntityFactory extends Element implements IEntityFactory
 {
-    /**
-     * Constructor.
-     */
-    public EnlightenedEntityFactory()
+    /** The singleton instance of this abstract factory. */
+    private static EnlightenedEntityFactory sFactory = null;
+
+    /** Prevent external construction. */
+    private EnlightenedEntityFactory()
     {
         super(Faction.ENLIGHTENED);
+    }
+
+    /**
+     * @return The singleton instance of this factory.
+     */
+    public static synchronized IEntityFactory getFactory()
+    {
+        if (sFactory == null)
+        {
+            sFactory = new EnlightenedEntityFactory();
+        }
+        return sFactory;
     }
 
     @Override
