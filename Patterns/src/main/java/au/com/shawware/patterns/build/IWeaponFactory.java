@@ -8,15 +8,17 @@
 package au.com.shawware.patterns.build;
 
 /**
- * Defines the entity creation methods on a single factory interface.
- * Forms part of the <em>Abstract Factory</em> pattern.
+ * Defines the weapon creation method on a single factory interface.
+ * Forms part of the <em>Factory Method</em> pattern.
  *
  * @author <a href="mailto:david.shaw@shawware.com.au">David Shaw</a>
  */
-public interface IEntityFactory extends IElement
+public interface IWeaponFactory extends IElement
 {
     /**
      * Creates a new weapon in our game.
+     * 
+     * Duplicates {@link IEntityFactory#createWeapon(int, WeaponType)}.
      * 
      * @param level the new weapon's level
      * @param type the new weapon's type
@@ -24,14 +26,4 @@ public interface IEntityFactory extends IElement
      * @return The new weapon.
      */
     public IWeapon createWeapon(final int level, final WeaponType type);
-
-    /**
-     * Creates a new mod in our game.
-     * 
-     * @param level the new mod's level
-     * @param type the new mod's type
-     * 
-     * @return The new mod.
-     */
-    public IMod createMod(final int level, final ModType type);
 }

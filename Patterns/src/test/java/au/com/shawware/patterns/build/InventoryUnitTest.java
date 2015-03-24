@@ -14,7 +14,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import org.junit.Test;
 
 import au.com.shawware.patterns.build.enlightened.EnlightenedEntityFactory;
+import au.com.shawware.patterns.build.enlightened.EnlightenedModFactory;
+import au.com.shawware.patterns.build.enlightened.EnlightenedWeaponFactory;
 import au.com.shawware.patterns.build.resistance.ResistanceEntityFactory;
+import au.com.shawware.patterns.build.resistance.ResistanceModFactory;
+import au.com.shawware.patterns.build.resistance.ResistanceWeaponFactory;
 
 /**
  * Unit tests for exercising our factory pattern classes.
@@ -24,16 +28,31 @@ import au.com.shawware.patterns.build.resistance.ResistanceEntityFactory;
 public class InventoryUnitTest
 {
     /**
-     * Some simple to tests as we developed the code.
+     * Test the <em>Abstract Factory</em> pattern code.
      */
     @Test
-    public void initialDev()
+    public void abstractFactory()
     {
         final IEntityFactory eFactory = EnlightenedEntityFactory.getFactory();
-        basicConstructionCheck(eFactory);
+        basicAbstractFactoryTests(eFactory);
 
         final IEntityFactory rFactory = ResistanceEntityFactory.getFactory();
-        basicConstructionCheck(rFactory);
+        basicAbstractFactoryTests(rFactory);
+    }
+
+    /**
+     * Test the <em>Factory Method</em> pattern code.
+     */
+    @Test
+    public void factoryMethod()
+    {
+        final IWeaponFactory ewFactory = new EnlightenedWeaponFactory();
+        final IModFactory emFactory = new EnlightenedModFactory();
+        basicFactoryMethodTests(ewFactory, emFactory);
+
+        final IWeaponFactory rwFactory = new ResistanceWeaponFactory();
+        final IModFactory rmFactory = new ResistanceModFactory();
+        basicFactoryMethodTests(rwFactory, rmFactory);
     }
 
     /**
@@ -41,7 +60,7 @@ public class InventoryUnitTest
      * 
      * @param factory the factory to test
      */
-    private void basicConstructionCheck(final IEntityFactory factory)
+    private void basicAbstractFactoryTests(final IEntityFactory factory)
     {
         final Inventory inventory = new Inventory(factory.getFaction());
         checkInventory(inventory, 0, 0);
@@ -55,6 +74,32 @@ public class InventoryUnitTest
 
         final IMod mod = factory.createMod(4, ModType.MULTI_HACK);
         checkMod(mod, factory.getFaction(), 4, ModType.MULTI_HACK);
+        System.out.println(mod);
+
+        inventory.addMod(mod);
+        checkInventory(inventory, 1, 1);
+    }
+
+    /**
+     * COnduct some simple tests for the given <em>Factory Method</em> factories.
+     * 
+     * @param weaponFactory the weapon factory
+     * @param modFactory the mod factory
+     */
+    private void basicFactoryMethodTests (final IWeaponFactory weaponFactory, final IModFactory modFactory)
+    {
+        final Inventory inventory = new Inventory(weaponFactory.getFaction());
+        checkInventory(inventory, 0, 0);
+
+        final IWeapon weapon = weaponFactory.createWeapon(3, WeaponType.XMP_BURSTER);
+        checkWeapon(weapon, weaponFactory.getFaction(), 3, WeaponType.XMP_BURSTER);
+        System.out.println(weapon);
+
+        inventory.addWeapon(weapon);
+        checkInventory(inventory, 1, 0);
+
+        final IMod mod = modFactory.createMod(4, ModType.MULTI_HACK);
+        checkMod(mod, modFactory.getFaction(), 4, ModType.MULTI_HACK);
         System.out.println(mod);
 
         inventory.addMod(mod);
