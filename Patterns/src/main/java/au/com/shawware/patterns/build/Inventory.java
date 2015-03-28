@@ -20,10 +20,10 @@ import au.com.shawware.util.SwAssert;
  */
 public class Inventory extends Element
 {
-    /** Holds the weapons. */
-    private final List<IWeapon> mWeapons;
     /** Holds the mods. */
     private final List<IMod> mMods;
+    /** Holds the weapons. */
+    private final List<IWeapon> mWeapons;
 
     /**
      * Construct a new inventory.
@@ -34,21 +34,8 @@ public class Inventory extends Element
     {
         super(faction);
 
-        mWeapons = new ArrayList<IWeapon>();
         mMods = new ArrayList<IMod>();
-    }
-
-    /**
-     * Adds a weapon to this inventory.
-     * 
-     * @param weapon the weapon to add
-     */
-    public void addWeapon(final IWeapon weapon)
-    {
-        SwAssert.notNull(weapon);
-        checkFaction(weapon);
-
-        mWeapons.add(weapon);
+        mWeapons = new ArrayList<IWeapon>();
     }
 
     /**
@@ -65,6 +52,19 @@ public class Inventory extends Element
     }
 
     /**
+     * Adds a weapon to this inventory.
+     * 
+     * @param weapon the weapon to add
+     */
+    public void addWeapon(final IWeapon weapon)
+    {
+        SwAssert.notNull(weapon);
+        checkFaction(weapon);
+
+        mWeapons.add(weapon);
+    }
+
+    /**
      * Asserts that the given entity has the correct faction for this inventory.
      * 
      * @param entity the entity to test
@@ -75,11 +75,11 @@ public class Inventory extends Element
     }
 
     /**
-     * @return The number of items in this inventory.
+     * @return The total number of mods in this inventory.
      */
-    public int numberOfItems()
+    public int numberOfMods()
     {
-        return mWeapons.size() + mMods.size();
+        return mMods.size();
     }
 
     /**
@@ -91,11 +91,53 @@ public class Inventory extends Element
     }
 
     /**
-     * @return The number of mods in this inventory.
+     * @return The number of items in this inventory.
      */
-    public int numberOfMods()
+    public int numberOfItems()
     {
-        return mMods.size();
+        return mMods.size() + mWeapons.size();
+    }
+
+    /**
+     * Counts the number of mods in this inventory with the given attributes.
+     *
+     * @param level the level of mod to count
+     * @param type the type of mod to count
+     *
+     * @return The mod count.
+     */
+    public int numberOfMods(final int level, final ModType type)
+    {
+        int count = 0;
+        for (IMod mod : mMods)
+        {
+            if ((mod.getLevel() == level) && mod.getType().equals(type))
+            {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    /**
+     * Counts the number of weapons in this inventory with the given attributes.
+     *
+     * @param level the level of weapon to count
+     * @param type the type of weapon to count
+     *
+     * @return The weapon count.
+     */
+    public int numberOfWeapons(final int level, final WeaponType type)
+    {
+        int count = 0;
+        for (IWeapon weapon : mWeapons)
+        {
+            if ((weapon.getLevel() == level) && weapon.getType().equals(type))
+            {
+                count++;
+            }
+        }
+        return count;
     }
 
     @Override

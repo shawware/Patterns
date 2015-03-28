@@ -29,9 +29,21 @@ public abstract class Entity extends Element implements IEntity
     {
         super(faction);
 
-        SwAssert.True((level > 0) && (level <= 8), "invalid level: " + level); //$NON-NLS-1$
+        SwAssert.True(isValidLevel(level), "invalid level: " + level); //$NON-NLS-1$
 
         mLevel = level;
+    }
+
+    /**
+     * Determines whether the given level is valid for our game.
+     * 
+     * @param level the level to test
+     * 
+     * @return Whether the given level is valid for our game.
+     */
+    public static boolean isValidLevel(final int level)
+    {
+        return (level > 0) && (level <= 8);
     }
 
     @Override
