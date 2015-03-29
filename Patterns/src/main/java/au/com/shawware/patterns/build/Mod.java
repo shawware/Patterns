@@ -14,7 +14,7 @@ import au.com.shawware.util.SwAssert;
  *
  * @author <a href="mailto:david.shaw@shawware.com.au">David Shaw</a>
  */
-public class Mod extends Entity implements IMod
+public abstract class Mod extends Entity implements IMod
 {
     /** The mod's type. */
     private final ModType mType;

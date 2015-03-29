@@ -14,7 +14,7 @@ import au.com.shawware.util.SwAssert;
  *
  * @author <a href="mailto:david.shaw@shawware.com.au">David Shaw</a>
  */
-public class Element implements IElement
+public abstract class Element implements IElement
 {
     /** The element's faction. */
     private final Faction mFaction;

@@ -45,14 +45,14 @@ public class EnlightenedEntityFactory extends Element implements IEntityFactory
     }
 
     @Override
-    public IWeapon createWeapon(final int level, final WeaponType type)
+    public IMod createMod(final int level, final ModType type)
     {
-        return new EWeapon(level, type);
+        return new EMod(level, type);
     }
 
     @Override
-    public IMod createMod(int level, ModType type)
+    public IWeapon createWeapon(final int level, final WeaponType type)
     {
-        return new EMod(level, type);
+        return new EWeapon(level, type);
     }
 }

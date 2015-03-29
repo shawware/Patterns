@@ -45,14 +45,14 @@ public class ResistanceEntityFactory extends Element implements IEntityFactory
     }
 
     @Override
-    public IWeapon createWeapon(final int level, final WeaponType type)
+    public IMod createMod(final int level, final ModType type)
     {
-        return new RWeapon(level, type);
+        return new RMod(level, type);
     }
 
     @Override
-    public IMod createMod(int level, ModType type)
+    public IWeapon createWeapon(final int level, final WeaponType type)
     {
-        return new RMod(level, type);
+        return new RWeapon(level, type);
     }
 }

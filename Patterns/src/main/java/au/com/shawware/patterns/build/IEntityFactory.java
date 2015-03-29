@@ -16,16 +16,6 @@ package au.com.shawware.patterns.build;
 public interface IEntityFactory extends IElement
 {
     /**
-     * Creates a new weapon in our game.
-     * 
-     * @param level the new weapon's level
-     * @param type the new weapon's type
-     * 
-     * @return The new weapon.
-     */
-    public IWeapon createWeapon(final int level, final WeaponType type);
-
-    /**
      * Creates a new mod in our game.
      * 
      * @param level the new mod's level
@@ -34,4 +24,14 @@ public interface IEntityFactory extends IElement
      * @return The new mod.
      */
     public IMod createMod(final int level, final ModType type);
+
+    /**
+     * Creates a new weapon in our game.
+     * 
+     * @param level the new weapon's level
+     * @param type the new weapon's type
+     * 
+     * @return The new weapon.
+     */
+    public IWeapon createWeapon(final int level, final WeaponType type);
 }
