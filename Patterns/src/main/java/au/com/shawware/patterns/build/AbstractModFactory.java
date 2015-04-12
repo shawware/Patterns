@@ -25,7 +25,7 @@ public abstract class AbstractModFactory extends Element implements IModFactory
     }
 
     @Override
-    public IMod createMod(final int level, final ModType type)
+    public final IMod createMod(final int level, final ModType type)
     {
         return manufactureMod(level, type);
     }

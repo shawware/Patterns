@@ -31,7 +31,7 @@ public abstract class AbstractInventoryFactory extends Element implements IInven
 
     // A Template Method.
     @Override
-    public Inventory createInventory(final List<Instruction> instructions)
+    public final Inventory createInventory(final List<Instruction> instructions)
     {
         SwAssert.notNull(instructions);
 

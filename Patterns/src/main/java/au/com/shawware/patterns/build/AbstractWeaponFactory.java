@@ -25,7 +25,7 @@ public abstract class AbstractWeaponFactory extends Element implements IWeaponFa
     }
 
     @Override
-    public IWeapon createWeapon(final int level, final WeaponType type)
+    public final IWeapon createWeapon(final int level, final WeaponType type)
     {
         return manufactureWeapon(level, type);
     }
