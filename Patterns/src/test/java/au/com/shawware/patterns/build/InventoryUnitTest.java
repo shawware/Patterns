@@ -57,6 +57,7 @@ public class InventoryUnitTest
         new Instruction(EntityType.MOD, 7, ModType.SHIELD),
         new Instruction(EntityType.MOD, 7, ModType.MULTI_HACK),
         new Instruction(EntityType.MOD, 7, ModType.HEAT_SINK),
+        new Instruction(EntityType.WEAPON, 2, WeaponType.PORTAL_REVERSER),
     };
 
     /**

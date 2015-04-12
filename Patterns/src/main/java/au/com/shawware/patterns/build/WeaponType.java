@@ -17,5 +17,7 @@ public enum WeaponType
     /** The standard XM weapon. */
     XMP_BURSTER,
     /** The high-energy, short-range weapon. */
-    ULTRA_STRIKE
+    ULTRA_STRIKE,
+    /** Reverses the faction of a portal. JARVIS Virus / ADA Refactor in the game. */
+    PORTAL_REVERSER
 }
