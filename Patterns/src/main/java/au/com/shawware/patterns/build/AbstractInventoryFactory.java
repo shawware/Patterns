@@ -44,9 +44,13 @@ public abstract class AbstractInventoryFactory extends Element implements IInven
             {
                 inventory.addMod(createMod(i.getLevel(), i.getModType()));
             }
-            else
+            else if (i.getEntityType().equals(EntityType.WEAPON))
             {
                 inventory.addWeapon(createWeapon(i.getLevel(), i.getWeaponType()));
+            }
+            else
+            {
+                inventory.addResonator(createResonator(i.getLevel()));
             }
         }
         return inventory;
@@ -75,4 +79,15 @@ public abstract class AbstractInventoryFactory extends Element implements IInven
      * @return The new weapon.
      */
     protected abstract IWeapon createWeapon(final int level, final WeaponType type);
+
+    /**
+     * Creates a new resonator in our game.
+     * 
+     * Duplicates {@link IEntityFactory#createResonator(int)}.
+     * 
+     * @param level the new resonator's level
+     * 
+     * @return The new resonator.
+     */
+    protected abstract IResonator createResonator(final int level);
 }

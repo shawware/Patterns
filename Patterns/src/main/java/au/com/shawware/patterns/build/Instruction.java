@@ -54,6 +54,24 @@ public class Instruction
     }
 
     /**
+     * Create a new instruction.
+     * 
+     * @param entityType the type of entity to be constructed
+     * @param level the level of entity to be constructed
+     */
+    public Instruction(final EntityType entityType, final int level)
+    {
+        SwAssert.notNull(entityType);
+        SwAssert.True(Entity.isValidLevel(level), "invalid level: " + level); //$NON-NLS-1$
+        SwAssert.True(entityType.equals(EntityType.RESONATOR), "not a resonator"); //$NON-NLS-1$
+
+        mEntityType = entityType;
+        mLevel = level;
+        mModType = null;
+        mWeaponType = null;
+    }
+
+    /**
      * @return The type of entity to be constructed.
      */
     public EntityType getEntityType()
@@ -98,16 +116,19 @@ public class Instruction
          .append(mEntityType)
          .append(',')
          .append(' ')
-         .append(mLevel)
-         .append(',')
-         .append(' ');
-        if (mEntityType.equals(EntityType.MOD))
+         .append(mLevel);
+        if (!mEntityType.equals(EntityType.RESONATOR))
         {
-            s.append(mModType);
-        }
-        else
-        {
-            s.append(mWeaponType);
+            s.append(',')
+             .append(' ');
+            if (mEntityType.equals(EntityType.MOD))
+            {
+                s.append(mModType);
+            }
+            else
+            {
+                s.append(mWeaponType);
+            }
         }
         s.append(')');
         return s.toString();

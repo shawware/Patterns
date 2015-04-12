@@ -34,4 +34,13 @@ public interface IEntityFactory extends IElement
      * @return The new weapon.
      */
     public IWeapon createWeapon(final int level, final WeaponType type);
+
+    /**
+     * Creates a new resonator in our game.
+     * 
+     * @param level the new resonator's level
+     * 
+     * @return The new resonator.
+     */
+    public IResonator createResonator(final int level);
 }

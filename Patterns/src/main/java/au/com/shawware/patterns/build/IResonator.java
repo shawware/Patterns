@@ -8,16 +8,11 @@
 package au.com.shawware.patterns.build;
 
 /**
- * Specifies the types of entities in our game.
+ * Specifies the resonator entity in our game.
  *
  * @author <a href="mailto:david.shaw@shawware.com.au">David Shaw</a>
  */
-public enum EntityType
+public interface IResonator extends IEntity
 {
-    /** The portal mod entity. */
-    MOD,
-    /** The anti-portal weapon entity. */
-    WEAPON,
-    /** The portal component and link base. */
-    RESONATOR
+    // Empty - as there is no sub-type.
 }

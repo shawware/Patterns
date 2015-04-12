@@ -11,6 +11,7 @@ import au.com.shawware.patterns.build.Element;
 import au.com.shawware.patterns.build.Faction;
 import au.com.shawware.patterns.build.IEntityFactory;
 import au.com.shawware.patterns.build.IMod;
+import au.com.shawware.patterns.build.IResonator;
 import au.com.shawware.patterns.build.IWeapon;
 import au.com.shawware.patterns.build.ModType;
 import au.com.shawware.patterns.build.WeaponType;
@@ -54,5 +55,11 @@ public class EnlightenedEntityFactory extends Element implements IEntityFactory
     public IWeapon createWeapon(final int level, final WeaponType type)
     {
         return new EWeapon(level, type);
+    }
+
+    @Override
+    public IResonator createResonator(final int level)
+    {
+        return new EResonator(level);
     }
 }

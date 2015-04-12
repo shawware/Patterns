@@ -11,6 +11,7 @@ import au.com.shawware.patterns.build.AbstractInventoryFactory;
 import au.com.shawware.patterns.build.Faction;
 import au.com.shawware.patterns.build.IInventoryFactory;
 import au.com.shawware.patterns.build.IMod;
+import au.com.shawware.patterns.build.IResonator;
 import au.com.shawware.patterns.build.IWeapon;
 import au.com.shawware.patterns.build.ModType;
 import au.com.shawware.patterns.build.WeaponType;
@@ -53,5 +54,11 @@ public class ResistanceInventoryFactory extends AbstractInventoryFactory
     protected IWeapon createWeapon(final int level, final WeaponType type)
     {
         return new RWeapon(level, type);
+    }
+
+    @Override
+    protected IResonator createResonator(final int level)
+    {
+        return new RResonator(level);
     }
 }

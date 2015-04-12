@@ -20,10 +20,12 @@ import org.junit.Test;
 import au.com.shawware.patterns.build.enlightened.EnlightenedEntityFactory;
 import au.com.shawware.patterns.build.enlightened.EnlightenedInventoryFactory;
 import au.com.shawware.patterns.build.enlightened.EnlightenedModFactory;
+import au.com.shawware.patterns.build.enlightened.EnlightenedResonatorFactory;
 import au.com.shawware.patterns.build.enlightened.EnlightenedWeaponFactory;
 import au.com.shawware.patterns.build.resistance.ResistanceEntityFactory;
 import au.com.shawware.patterns.build.resistance.ResistanceInventoryFactory;
 import au.com.shawware.patterns.build.resistance.ResistanceModFactory;
+import au.com.shawware.patterns.build.resistance.ResistanceResonatorFactory;
 import au.com.shawware.patterns.build.resistance.ResistanceWeaponFactory;
 import au.com.shawware.util.StringUtil;
 import au.com.shawware.util.SwAssert;
@@ -58,6 +60,9 @@ public class InventoryUnitTest
         new Instruction(EntityType.MOD, 7, ModType.MULTI_HACK),
         new Instruction(EntityType.MOD, 7, ModType.HEAT_SINK),
         new Instruction(EntityType.WEAPON, 2, WeaponType.PORTAL_REVERSER),
+        new Instruction(EntityType.RESONATOR, 4),
+        new Instruction(EntityType.RESONATOR, 8),
+        new Instruction(EntityType.RESONATOR, 7),
     };
 
     /**
@@ -67,6 +72,7 @@ public class InventoryUnitTest
     {
         new Instruction(EntityType.MOD, 1, ModType.MULTI_HACK),
         new Instruction(EntityType.WEAPON, 2, WeaponType.XMP_BURSTER),
+        new Instruction(EntityType.RESONATOR, 3),
     };
 
     // Data about the primary test fixture.
@@ -74,6 +80,8 @@ public class InventoryUnitTest
     private static int sNumMods = 0;
     /** The number of weapons in the primary test fixture. */
     private static int sNumWeapons = 0;
+    /** The number of resonators in the primary test fixture. */
+    private static int sNumResonators = 0;
     /** The test fixture as a list. */
     private static List<Instruction> sInstructions;
     /** Count the entity data. */
@@ -87,6 +95,7 @@ public class InventoryUnitTest
     {
         sNumMods = 0;
         sNumWeapons = 0;
+        sNumResonators = 0;
         sInstructions = new ArrayList<Instruction>();
         sCounter = new ValueCounter<String>();
         for (int i=0; i<sData.length; i++)
@@ -95,9 +104,13 @@ public class InventoryUnitTest
             {
                 sNumMods++;
             }
-            else
+            else if (sData[i].getEntityType().equals(EntityType.WEAPON))
             {
                 sNumWeapons++;
+            }
+            else
+            {
+                sNumResonators++;
             }
             sInstructions.add(sData[i]);
             sCounter.countValue(generateKey(sData[i]));
@@ -123,10 +136,15 @@ public class InventoryUnitTest
             key = StringUtil.generateKey(EntityType.MOD.toString(),
                     Integer.toString(instruction.getLevel()), instruction.getModType().toString());
         }
-        else
+        else if (instruction.getEntityType().equals(EntityType.WEAPON))
         {
             key = StringUtil.generateKey(EntityType.WEAPON.toString(),
                     Integer.toString(instruction.getLevel()), instruction.getWeaponType().toString());
+        }
+        else
+        {
+            key = StringUtil.generateKey(EntityType.RESONATOR.toString(),
+                    Integer.toString(instruction.getLevel()));
         }
         return key;
     }
@@ -152,11 +170,13 @@ public class InventoryUnitTest
     {
         final IWeaponFactory ewFactory = new EnlightenedWeaponFactory();
         final IModFactory emFactory = new EnlightenedModFactory();
-        basicFactoryMethodTests(ewFactory, emFactory);
+        final IResonatorFactory erFactory = new EnlightenedResonatorFactory();
+        basicFactoryMethodTests(ewFactory, emFactory, erFactory);
 
         final IWeaponFactory rwFactory = new ResistanceWeaponFactory();
         final IModFactory rmFactory = new ResistanceModFactory();
-        basicFactoryMethodTests(rwFactory, rmFactory);
+        final IResonatorFactory rrFactory = new ResistanceResonatorFactory();
+        basicFactoryMethodTests(rwFactory, rmFactory, rrFactory);
 
         final IInventoryFactory eFactory = EnlightenedInventoryFactory.getFactory();
         inventoryFactoryMethodTest(eFactory);
@@ -173,19 +193,25 @@ public class InventoryUnitTest
     private void basicAbstractFactoryTests(final IEntityFactory factory)
     {
         final Inventory inventory = new Inventory(factory.getFaction());
-        checkInventory(inventory, 0, 0);
-
-        final IWeapon weapon = factory.createWeapon(3, WeaponType.XMP_BURSTER);
-        checkWeapon(weapon, factory.getFaction(), 3, WeaponType.XMP_BURSTER);
-
-        inventory.addWeapon(weapon);
-        checkInventory(inventory, 0, 1);
+        checkInventory(inventory, 0, 0, 0);
 
         final IMod mod = factory.createMod(4, ModType.MULTI_HACK);
         checkMod(mod, factory.getFaction(), 4, ModType.MULTI_HACK);
 
         inventory.addMod(mod);
-        checkInventory(inventory, 1, 1);
+        checkInventory(inventory, 1, 0, 0);
+
+        final IWeapon weapon = factory.createWeapon(3, WeaponType.XMP_BURSTER);
+        checkWeapon(weapon, factory.getFaction(), 3, WeaponType.XMP_BURSTER);
+
+        inventory.addWeapon(weapon);
+        checkInventory(inventory, 1, 1, 0);
+
+        final IResonator resonator = factory.createResonator(7);
+        checkEntity(resonator, factory.getFaction(), 7);
+
+        inventory.addResonator(resonator);
+        checkInventory(inventory, 1, 1, 1);
     }
 
     /**
@@ -193,23 +219,30 @@ public class InventoryUnitTest
      * 
      * @param weaponFactory the weapon factory
      * @param modFactory the mod factory
+     * @param resonatorFactory the resonator factory
      */
-    private void basicFactoryMethodTests (final IWeaponFactory weaponFactory, final IModFactory modFactory)
+    private void basicFactoryMethodTests(final IWeaponFactory weaponFactory, final IModFactory modFactory, final IResonatorFactory resonatorFactory)
     {
         final Inventory inventory = new Inventory(weaponFactory.getFaction());
-        checkInventory(inventory, 0, 0);
-
-        final IWeapon weapon = weaponFactory.createWeapon(3, WeaponType.XMP_BURSTER);
-        checkWeapon(weapon, weaponFactory.getFaction(), 3, WeaponType.XMP_BURSTER);
-
-        inventory.addWeapon(weapon);
-        checkInventory(inventory, 0, 1);
+        checkInventory(inventory, 0, 0, 0);
 
         final IMod mod = modFactory.createMod(4, ModType.MULTI_HACK);
         checkMod(mod, modFactory.getFaction(), 4, ModType.MULTI_HACK);
 
         inventory.addMod(mod);
-        checkInventory(inventory, 1, 1);
+        checkInventory(inventory, 1, 0, 0);
+
+        final IWeapon weapon = weaponFactory.createWeapon(3, WeaponType.XMP_BURSTER);
+        checkWeapon(weapon, weaponFactory.getFaction(), 3, WeaponType.XMP_BURSTER);
+
+        inventory.addWeapon(weapon);
+        checkInventory(inventory, 1, 1, 0);
+
+        final IResonator resonator = resonatorFactory.createResonator(7);
+        checkEntity(resonator, resonatorFactory.getFaction(), 7);
+
+        inventory.addResonator(resonator);
+        checkInventory(inventory, 1, 1, 1);
     }
 
     /**
@@ -221,7 +254,7 @@ public class InventoryUnitTest
     private void inventoryFactoryMethodTest(final IInventoryFactory factory)
     {
         final Inventory inventory = factory.createInventory(sInstructions);
-        checkInventory(inventory, sNumMods, sNumWeapons);
+        checkInventory(inventory, sNumMods, sNumWeapons, sNumResonators);
 
         for (int i=0; i<sData.length; i++)
         {
@@ -257,9 +290,13 @@ public class InventoryUnitTest
         {
             count = inventory.numberOfMods(instruction.getLevel(), instruction.getModType());
         }
-        else
+        else if (instruction.getEntityType().equals(EntityType.WEAPON))
         {
             count = inventory.numberOfWeapons(instruction.getLevel(), instruction.getWeaponType());
+        }
+        else
+        {
+            count = inventory.numberOfResonators(instruction.getLevel());
         }
         return count;
     }
@@ -313,12 +350,14 @@ public class InventoryUnitTest
      * @param inventory the inventory to test
      * @param numMods the expected number of mods
      * @param numWeapons the expected number of weapons
+     * @param numResonators the expected number of resonators
      */
     @SuppressWarnings({ "boxing", "static-method" })
-    private void checkInventory(final Inventory inventory, final int numMods, final int numWeapons)
+    private void checkInventory(final Inventory inventory, final int numMods, final int numWeapons, final int numResonators)
     {
         assertThat(inventory.numberOfMods(), equalTo(numMods));
         assertThat(inventory.numberOfWeapons(), equalTo(numWeapons));
-        assertThat(inventory.numberOfItems(), equalTo(numMods + numWeapons));
+        assertThat(inventory.numberOfResonators(), equalTo(numResonators));
+        assertThat(inventory.numberOfItems(), equalTo(numMods + numWeapons + numResonators));
     }
 }

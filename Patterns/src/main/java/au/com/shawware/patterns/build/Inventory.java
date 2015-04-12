@@ -24,6 +24,8 @@ public class Inventory extends Element
     private final List<IMod> mMods;
     /** Holds the weapons. */
     private final List<IWeapon> mWeapons;
+    /** Holds the resonators. */
+    private final List<IResonator> mResonators;
 
     /**
      * Construct a new inventory.
@@ -36,6 +38,7 @@ public class Inventory extends Element
 
         mMods = new ArrayList<IMod>();
         mWeapons = new ArrayList<IWeapon>();
+        mResonators = new ArrayList<IResonator>();
     }
 
     /**
@@ -65,6 +68,19 @@ public class Inventory extends Element
     }
 
     /**
+     * Adds a resonator to this inventory.
+     * 
+     * @param resonator the resonator to add
+     */
+    public void addResonator(final IResonator resonator)
+    {
+        SwAssert.notNull(resonator);
+        checkFaction(resonator);
+
+        mResonators.add(resonator);
+    }
+
+    /**
      * Asserts that the given entity has the correct faction for this inventory.
      * 
      * @param entity the entity to test
@@ -91,11 +107,19 @@ public class Inventory extends Element
     }
 
     /**
+     * @return The number of resonators in this inventory.
+     */
+    public int numberOfResonators()
+    {
+        return mResonators.size();
+    }
+
+    /**
      * @return The number of items in this inventory.
      */
     public int numberOfItems()
     {
-        return mMods.size() + mWeapons.size();
+        return mMods.size() + mWeapons.size() + mResonators.size();
     }
 
     /**
@@ -133,6 +157,26 @@ public class Inventory extends Element
         for (IWeapon weapon : mWeapons)
         {
             if ((weapon.getLevel() == level) && weapon.getType().equals(type))
+            {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    /**
+     * Counts the number of resonators in this inventory with the given attributes.
+     *
+     * @param level the level of resonator to count
+     *
+     * @return The resonator count.
+     */
+    public int numberOfResonators(final int level)
+    {
+        int count = 0;
+        for (IResonator resonator : mResonators)
+        {
+            if (resonator.getLevel() == level)
             {
                 count++;
             }
